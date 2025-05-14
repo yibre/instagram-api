@@ -1,5 +1,7 @@
 package com.insta.instagram_api.dto;
 
+import java.util.Objects;
+
 public class UserDto {
     private Integer id;
     private String username;
@@ -7,7 +9,7 @@ public class UserDto {
     private String name;
     private String userImage;
 
-    public UserDto(Integer id, String username, String email) {
+    public UserDto(Integer id, String username, String email, String name, String userImage) {
         super();
         this.id = id;
         this.username = username;
@@ -57,12 +59,17 @@ public class UserDto {
     }
 
     @Override
-    public int hashCode() {
-
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(id, userDto.id) && Objects.equals(username, userDto.username)
+                && Objects.equals(email, userDto.email) && Objects.equals(name, userDto.name)
+                && Objects.equals(userImage, userDto.userImage);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public int hashCode() {
+        return Objects.hash(id, username, email, name, userImage);
     }
 }

@@ -1,8 +1,11 @@
 package com.insta.instagram_api.modal;
 
+import com.insta.instagram_api.dto.UserDto;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -21,5 +24,8 @@ public class User {
 
     private String password;
 
-    private set<> follower = new HashSet<>();
+    private Set<UserDto> follower = new HashSet<UserDto>();
+    private Set<UserDto> following = new HashSet<UserDto>();
+    private List<Story> stories = new ArrayList<>();
+    private List<Post> savedPost = new ArrayList<>();
 }
