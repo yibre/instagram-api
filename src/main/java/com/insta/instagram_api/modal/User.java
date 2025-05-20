@@ -22,13 +22,32 @@ public class User {
     private String bio;
     private String gender;
     private String image;
-
     private String password;
 
     private Set<UserDto> follower = new HashSet<UserDto>();
     private Set<UserDto> following = new HashSet<UserDto>();
     private List<Story> stories = new ArrayList<>();
     private List<Post> savedPost = new ArrayList<>();
+
+    public User(Integer id, String username, String name, String email, String mobile, String website, String bio,
+                String gender, String image, String password, Set<UserDto> follower, Set<UserDto> following,
+                List<Story> stories, List<Post> savedPost) {
+        super();
+        this.id = id;
+        this.username=username;
+        this.name = name;
+        this.email = email;
+        this.mobile = mobile;
+        this.website = website;
+        this.bio = bio;
+        this.gender = gender;
+        this.image = image;
+        this.password = password;
+        this.follower = follower;
+        this.following = following;
+        this.stories = stories;
+        this.savedPost = savedPost;
+    }
 
     public Integer getId() {
         return id;
@@ -140,5 +159,26 @@ public class User {
 
     public void setSavedPost(List<Post> savedPost) {
         this.savedPost = savedPost;
+    }
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", website='" + website + '\'' +
+                ", bio='" + bio + '\'' +
+                ", gender='" + gender + '\'' +
+                ", image='" + image + '\'' +
+                ", password='" + password + '\'' +
+                ", follower=" + follower +
+                ", following=" + following +
+                ", stories=" + stories +
+                ", savedPost=" + savedPost +
+                '}';
     }
 }
