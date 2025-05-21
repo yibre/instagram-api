@@ -1,0 +1,71 @@
+package com.insta.instagram_api.modal;
+
+import com.insta.instagram_api.dto.UserDto;
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
+// 4번째 강의 35:01
+public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    // 1. spring annotation의 정의 범위는? 바로 다음줄까지만?
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="id",column=@Column(name="user_id")),
+            @AttributeOverride(name="email", column = @Column(name="user_email")),
+    })
+    private UserDto user;
+
+    private String content;
+
+    @Embedded
+    @ElementCollection
+    private Set<UserDto> likedByUsers = new HashSet<UserDto>();
+
+    private LocalDateTime createdAt;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Set<UserDto> getLikedByUsers() {
+        return likedByUsers;
+    }
+
+    public void setLikedByUsers(Set<UserDto> likedByUsers) {
+        this.likedByUsers = likedByUsers;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+}
