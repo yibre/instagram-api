@@ -34,6 +34,8 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Story> stories = new ArrayList<>();
+
+    @ManyToMany
     private List<Post> savedPost = new ArrayList<>();
 
     public User(Integer id, String username, String name, String email, String mobile, String website, String bio,
