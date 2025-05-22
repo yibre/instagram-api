@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 // 4번째 강의 35:01
+@Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
