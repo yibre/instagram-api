@@ -9,6 +9,10 @@ public class UserDto {
     private String name;
     private String userImage;
 
+    public UserDto() {
+
+    }
+
     public UserDto(Integer id, String username, String email, String name, String userImage) {
         super();
         this.id = id;

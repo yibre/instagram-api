@@ -38,6 +38,10 @@ public class User {
     @ManyToMany
     private List<Post> savedPost = new ArrayList<>();
 
+    public User() {
+        // TODO: auto-generated code.
+    }
+
     public User(Integer id, String username, String name, String email, String mobile, String website, String bio,
                 String gender, String image, String password, Set<UserDto> follower, Set<UserDto> following,
                 List<Story> stories, List<Post> savedPost) {
