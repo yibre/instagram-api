@@ -57,9 +57,17 @@ public class UserServiceImplementation implements UserService {
         return null;
     }
 
+    // 아래 함수는 4번째 강의 2:05:00 쯤에서부터 만들기 시작
+    // TODO: 그런데 아래 findByUsername을 함수 안에서 한 번 더 쓴 건 어떻게 쓴거지?
     @Override
     public User findUserByUsername(String username) throws UserException {
-        return null;
+        Optional<User> opt = userRepository.findByUsername(username);
+
+        if (opt.isPresent()) {
+            return opt.get();
+        }
+
+        throw new UserException("User does not exist with username: "+username);
     }
 
     // 1:41:47 부터 구현 시작
@@ -124,16 +132,49 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public List<User> findUserByIds(List<Integer> userIds) throws UserException {
-        return List.of();
+        List<User> users = userRepository.findAllUsersByUserIds(userIds);
+        return users;
     }
 
     @Override
     public List<User> searchUser(String query) throws UserException {
-        return List.of();
+        List<User> users = userRepository.findByQuery(query);
+        if (users.size()==0) {
+            throw new UserException("user not found");
+        }
+        return users;
     }
 
     @Override
-    public User updateUserDetails(User updateUser, User existingUser) throws UserException {
-        return null;
+    public User updateUserDetails(User updatedUser, User existingUser) throws UserException {
+
+        if (updatedUser.getEmail() != null ) {
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+        if (updatedUser.getBio() != null) {
+            existingUser.setBio(updatedUser.getBio());
+        }
+        if (updatedUser.getName() != null) {
+            existingUser.setName(updatedUser.getName());
+        }
+        if (updatedUser.getUsername() != null) {
+            existingUser.setUsername(updatedUser.getUsername());
+        }
+        if (updatedUser.getMobile() != null) {
+            existingUser.setMobile(updatedUser.getMobile());
+        }
+        if (updatedUser.getGender() != null) {
+            existingUser.setGender(updatedUser.getGender());
+        }
+        if (updatedUser.getWebsite() != null) {
+            existingUser.setWebsite(updatedUser.getWebsite());
+        }
+        if (updatedUser.getImage() != null) {
+            existingUser.setImage(updatedUser.getImage());
+        }
+        if (updatedUser.getId().equals(existingUser.getId())) {
+            return userRepository.save(existingUser);
+        }
+        throw new UserException("You can't update this user");
     }
 }
