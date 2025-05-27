@@ -5,11 +5,13 @@ import com.insta.instagram_api.modal.User;
 import com.insta.instagram_api.repository.UserRepository;
 import com.insta.instagram_api.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-
+// 비즈니스 로직
+@Service
 public class UserServiceImplementation implements UserService {
 
     @Autowired
