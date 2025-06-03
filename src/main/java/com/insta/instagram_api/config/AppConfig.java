@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 
 // 메서드 체이닝 지양, 람다식으로 함수형 설정 권고.
@@ -45,7 +46,7 @@ public class AppConfig {
                     // 4. Form Login: Enable form login with default settings
                     .formLogin(Customizer.withDefaults()) // Or configure it: .formLogin(form -> form.loginPage("/login").permitAll())
                     // 5. HTTP Basic Authentication: Enable HTTP Basic authentication with default settings
-                    .httpBasic(Customizer.withDefaults()); // Or configure it if needed
+                    .httpBasic(Customizer.withDefaults());// Or configure it if needed
 
             // 6. Custom Filters:
             // The original code had .addFilterAfter(null, null) and .addFilterBefore(null, null).
@@ -60,7 +61,9 @@ public class AppConfig {
             // If you don't have custom filters to add here, these lines should be removed.
             // I've removed them in this updated version. If you intended to add filters,
             // please provide the filter classes and where they should be placed in the chain.
-
+            http.addFilterBefore(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
+                    .addFilterAfter(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class);
+            // 커스터마이징 필터 추가: 5th lecture 37:10
             return http.build();
         }
 
