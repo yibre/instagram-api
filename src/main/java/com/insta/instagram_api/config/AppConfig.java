@@ -74,22 +74,23 @@ public class AppConfig {
         // }
 
     // TODO: securityConfiguration 함수 고치기. 체인형 함수 지양, 더 이상 지원하지 않는 패키지.
-    /* 강의 오리지널 함수
+    /*
     @Bean
-    public SecurityFilterChain securityConfiguration(HttpSecurity http) throws Exception {
+    public SecurityFilterChain Test_securityConfiguration(HttpSecurity http) throws Exception {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/signup").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterAfter(null, null)
-                .addFilterBefore(null, null)
+                .addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(JwtTokenGeneratorFilter,  BasicAuthenticationFilter.class)
                 .csrf().disable()
                 .formLogin().and().httpBasic();
 
         return http.build();
-    } */
+    }
+    */
 
     @Bean
     public PasswordEncoder passwordEncoder() {

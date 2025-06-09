@@ -55,3 +55,5 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
         return !req.getServletPath().equals("/signin");
     }
 }
+
+// 5강 1:00:10 하는 중

@@ -1,12 +1,14 @@
 package com.insta.instagram_api.service;
 
+import com.insta.instagram_api.config.AppConfig;
 import com.insta.instagram_api.exceptions.UserException;
 import com.insta.instagram_api.modal.User;
 import com.insta.instagram_api.repository.UserRepository;
 import com.insta.instagram_api.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,9 @@ public class UserServiceImplementation implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // 4번째 강의 1:25:40에서 구현 시작
     @Override
@@ -31,15 +36,16 @@ public class UserServiceImplementation implements UserService {
         }
 
         if (user.getEmail()==null || user.getPassword()==null || user.getUsername() == null || user.getName() == null) {
-            throw new UserException("all fields are required.");
+            throw new UserException("All fields are required.");
         }
 
         User newUser = new User();
 
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
         newUser.setUsername(user.getUsername());
         newUser.setName(user.getName());
+        // 5th 54:22
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(newUser);
     }

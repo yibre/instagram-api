@@ -28,6 +28,7 @@ public class UserUserDetailsService implements UserDetailsService {
 
         if(opt.isPresent()) {
             com.insta.instagram_api.modal.User user = opt.get();
+
             List<GrantedAuthority> authorities = new ArrayList<>();
 
             // 위에서 import한 모델 클래스의 유저와 아래 유저는 다름 45:10
