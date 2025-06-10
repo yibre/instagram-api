@@ -17,18 +17,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity
 public class AppConfig {
-
-        // If you were using addFilterBefore/After with actual filters,
-        // you would inject them or create them here.
-        // Example:
-        // private final FilterA filterA;
-        // private final FilterB filterB;
-        //
-        // public SecurityConfig(FilterA filterA, FilterB filterB) {
-        //     this.filterA = filterA;
-        //     this.filterB = filterB;
-        // }
-
         @Bean
         public SecurityFilterChain securityConfiguration(HttpSecurity http) throws Exception {
             http
@@ -46,7 +34,10 @@ public class AppConfig {
                     // 4. Form Login: Enable form login with default settings
                     .formLogin(Customizer.withDefaults()) // Or configure it: .formLogin(form -> form.loginPage("/login").permitAll())
                     // 5. HTTP Basic Authentication: Enable HTTP Basic authentication with default settings
-                    .httpBasic(Customizer.withDefaults());// Or configure it if needed
+                    .httpBasic(Customizer.withDefaults()) // Or configure it if needed
+                    // 커스터마이징 필터
+                    .addFilterBefore(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
+                    .addFilterAfter(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class);
 
             // 6. Custom Filters:
             // The original code had .addFilterAfter(null, null) and .addFilterBefore(null, null).
@@ -61,8 +52,7 @@ public class AppConfig {
             // If you don't have custom filters to add here, these lines should be removed.
             // I've removed them in this updated version. If you intended to add filters,
             // please provide the filter classes and where they should be placed in the chain.
-            http.addFilterBefore(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
-                    .addFilterAfter(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class);
+
             // 커스터마이징 필터 추가: 5th lecture 37:10
             return http.build();
         }
@@ -73,8 +63,8 @@ public class AppConfig {
         //     return new YourCustomFilter();
         // }
 
-    // TODO: securityConfiguration 함수 고치기. 체인형 함수 지양, 더 이상 지원하지 않는 패키지.
-    /*
+    // securityConfiguration 함수 고치기. 체인형 함수 지양, 더 이상 지원하지 않는 패키지.
+        /* 강의 오리지널 함수
     @Bean
     public SecurityFilterChain Test_securityConfiguration(HttpSecurity http) throws Exception {
 
@@ -84,13 +74,13 @@ public class AppConfig {
                 .anyRequest().authenticated()
                 .and()
                 .addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
-                .addFilterBefore(JwtTokenGeneratorFilter,  BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenValidationFilter(),  BasicAuthenticationFilter.class)
                 .csrf().disable()
                 .formLogin().and().httpBasic();
 
         return http.build();
     }
-    */
+         */
 
     @Bean
     public PasswordEncoder passwordEncoder() {

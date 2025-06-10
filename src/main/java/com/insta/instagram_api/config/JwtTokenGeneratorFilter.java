@@ -35,6 +35,7 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
                     .setExpiration(new Date(new Date().getTime()+300000000))
                     .signWith(key).compact();
 
+            System.out.print("jwt 토큰은: "+jwt);
             response.setHeader(SecurityContext.HEADER, jwt);
         }
 
