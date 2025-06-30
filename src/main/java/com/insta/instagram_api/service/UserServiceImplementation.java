@@ -5,6 +5,8 @@ import com.insta.instagram_api.exceptions.UserException;
 import com.insta.instagram_api.modal.User;
 import com.insta.instagram_api.repository.UserRepository;
 import com.insta.instagram_api.dto.UserDto;
+import com.insta.instagram_api.security.JwtTokenClaims;
+import com.insta.instagram_api.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class UserServiceImplementation implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private JwtTokenProvider jwtTokenProvider;
 
     // 4번째 강의 1:25:40에서 구현 시작
     @Override
@@ -62,7 +66,21 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public User findUserProfile(String token) throws UserException {
-        return null;
+        // https://www.youtube.com/watch?v=UXx9J3pGJNI&list=PL26ar0pSef9hgFFtQOprYTM-zAw6-GmOE&index=8 강의 36:50
+        // Bearer afafdadfasdfasdf
+        token = token.substring(7);
+
+        JwtTokenClaims jwtTokenClaims = jwtTokenProvider.getClaimsFromToken(token);
+
+        String email = jwtTokenClaims.getUsername();
+
+        Optional<User> opt = userRepository.findByEmail(email);
+
+        if (opt.isPresent()) {
+            return opt.get();
+        }
+
+        throw new UserException("invalid token...");
     }
 
     // 아래 함수는 4번째 강의 2:05:00 쯤에서부터 만들기 시작
