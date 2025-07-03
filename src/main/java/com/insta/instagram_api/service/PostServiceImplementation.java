@@ -1,5 +1,6 @@
 package com.insta.instagram_api.service;
 
+import com.insta.instagram_api.dto.UserDto;
 import com.insta.instagram_api.exceptions.PostException;
 import com.insta.instagram_api.exceptions.UserException;
 import com.insta.instagram_api.modal.Post;
@@ -22,7 +23,17 @@ public class PostServiceImplementation implements PostService {
     public Post createPost(Post post, Integer userId) throws UserException {
         // https://www.youtube.com/watch?v=UXx9J3pGJNI&list=PL26ar0pSef9hgFFtQOprYTM-zAw6-GmOE&index=8 강의 40:45
         User user = userService.findUserById(userId);
-        return null;
+        UserDto userDto = new UserDto();
+        userDto.setEmail(user.getEmail());
+        userDto.setId(user.getId());
+        userDto.setName(user.getName());
+        userDto.setUserImage(user.getImage());
+        userDto.setUsername(user.getUsername());
+
+        post.setUser(userDto);
+
+        Post createdPost = postRepository.save(post);
+        return createdPost;
     }
 
     @Override
